@@ -1,4 +1,5 @@
 # SmithChartPy
+
 SmithChartPy: Impedance Matching and Network Visualization Software
 
 Numerous impedance matching tools exist, but all lack in numerous details that I thought would be interesting to implement.
@@ -7,5 +8,6 @@ The main features this project aims to provide, for the time being: a frequency 
 
 In addition, I am always interested in finding better graphical ways to visualize various circuit elements: lossy elements for example; or shunt series L-C networks.
 
-![Screen Capture](screenshot.png)
+![Screen Capture][def]
 
+[def]: screenshot.png
