@@ -6,12 +6,14 @@ October 29, 2016
 Description: Schematic frame for Smith Chart matching tool
 """
 
-import Tkinter as Tk
+from msilib.schema import SelfReg
+import tkinter as Tk
+from typing import Self
 
 class manual_event(object):
-    def __init__(x,y):
-        self.x=x
-        self.y=y
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 def nearest_ind(item_list,val):
     """Return index of nearest val in item_list"""
@@ -88,14 +90,14 @@ class SchematicFrame(Tk.Frame):
 
         
         self.slider.update_slider(values={'min':self.net.element_array[i].val['min']/scale,
-                                          'cur':self.net.element_array[i].val[valname]/scale,
+                                          'cur':self.net.element_array[i].val['valname']/scale,
                                           'max':self.net.element_array[i].val['max']/scale,
                                           'step':0.1,
                                           'unit':self.net.element_array[i].val['unit']})
 
         self.slider.update_slider_position()
         
-        self.canvas1.delete(self.box)
+        self.canvas1.delete('self.box')
         self.draw_box(self.canvas1,self.image_selection)#event.x/self.im_x_size)
         self.draw_plot(selection=i)
 
@@ -117,7 +119,7 @@ class SchematicFrame(Tk.Frame):
         
     def follow_mouse(self,event):
         new_x, new_y = event.x, event.y
-        old_x, old_y = self.canvas1.coords(self.item_arr[self.image_selection])
+        old_x, old_y = self.canvas1.coords('self.item_arr[self.image_selection')[0], self.canvas1.coords('self.item_arr[self.image_selection]')[1]
 
         num_items=len(self.item_arr)        
         position_num=nearest_ind(self.item_positions,new_x)
@@ -127,7 +129,7 @@ class SchematicFrame(Tk.Frame):
         if position_num==(len(self.item_arr)-1): #load click
             return
         
-        self.canvas1.move(self.item_arr[self.image_selection], new_x-old_x, new_y-old_y)
+        self.canvas1.move('self.item_arr[self.image_selection', new_x-old_x, new_y-old_y)
         self.drag=True
 
         if int(new_x/self.im_x_size) != int(old_x/self.im_x_size):
@@ -141,8 +143,8 @@ class SchematicFrame(Tk.Frame):
         canvas.tag_raise(self.box)
 
 
-    def new_position(self,x):
-        return max(min(int(new_x/self.im_x_size)),0)
+    def new_position(self, new_x):
+        return max(min([int(new_x/self.im_x_size)]), 0)
 
 
     def reposition_image(self,event):
@@ -223,12 +225,12 @@ if __name__=='__main__':
         def __init__(self):
             pass
         def update_slider(self,values={}):
-            print values
+            print("update_slider() called",values) #values
         def draw_plot(self):
             pass
             #print "draw_plot() called"
         def update_slider_position(self):
-            print "update_slider_position() called"
+            print("update_slider_position() called")
 
 
     class MainWindow(Tk.Frame):
@@ -238,7 +240,7 @@ if __name__=='__main__':
     net=network()
     slide=slider()
     def draw_plot():
-            print "draw_plot() called"
+            print("draw_plot() called")
 
     root = Tk.Tk()
     

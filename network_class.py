@@ -11,6 +11,10 @@ from numpy import pi as pi
 class network(object):
     """Class for one dimension network (i.e. a matching network)."""
 
+    #element_array=[]
+    #ZP2=lambda freq: 50.0 #Network termination on output
+    #ZP1=lambda freq: 50.0 #Network termination on output
+    
     element_array=[]
 
     def __init__(self):
@@ -32,15 +36,30 @@ class network(object):
         return Zarr
 
     def print_net(self):
+        def __init__(self,*args,**kargs):
+            element.__init__(self)
+            self.name='capQ'
+            
+            if len(args)!=2:
+                print ("ERROR: capQ(element) requires 2 arguments")
+            else:
+                self.val['C']=args[0]
+                self.val['Q']=args[1]
+            
+            #function to define series impedance
+            self.Zfunc=lambda self,freq: (1.0/(2*pi*freq*self.val['C']))/self.val['Q']+1.0j/(2*pi*freq*self.val['C'])
+            #function to define admittance
+            self.Zfunc=lambda self,freq: (1.0/(2*pi*freq*self.val['C']))/self.val['Q']+1.0j/(2*pi*freq*self.val['C'])
+    
+            print(elem.name, elem.val)  
         for elem in self.element_array:
-            print elem.name, elem.val
-
-    def move_element(self,n_a,n_b):
-        """
-        Moves element to new index shifting other elements accordingly.
-        Simplies drag-drop action of components
-        """
-        self.element_array.insert(n_b,self.element_array.pop(n_a))
+           
+            def move_element(self, index_a, index_b):
+                """
+                 Moves an element to a new index, shifting other elements accordingly.
+                Simplifies the drag-and-drop action of components.
+                 """
+                self.element_array.insert(index_b, self.element_array.pop(index_a))
 
     
 class element(object):
@@ -52,7 +71,7 @@ class element(object):
         self.orientation=0
         self.default=''
         
-        if kargs.has_key('shunt'):
+        if 'shunt' in kargs:
             self.orientation=kargs['shunt'] # 0: Series, 1:Shunt
         self.val={}
 
@@ -100,7 +119,7 @@ class cap(element):
         self.val['unit']='pF' #Unit not used to scale value variable
                 
         if len(args)!=1:
-            print "ERROR: cap(element) requires 1 argument"
+           print("ERROR: cap(element) requires 1 argument")
         else:
             self.val[self.default]=args[0]
 
@@ -135,7 +154,7 @@ class ind(element):
         self.val['unit']='nH' #Unit not used to scale value variable
         
         if len(args)!=1:
-            print "ERROR: ind(element) requires 1 argument"
+            print ("ERROR: ind(element) requires 1 argument")
         else:
             self.val['L']=args[0]
 
@@ -151,7 +170,7 @@ class indQ(element):
         self.name='indQ'
 
         if len(args)!=2:
-            print "ERROR: indQ(element) requires 2 arguments"
+            print ("ERROR: indQ(element) requires 2 arguments")
         else:
             self.val['L']=args[0]
             self.val['Q']=args[1]
@@ -159,7 +178,15 @@ class indQ(element):
         #function to define series impedance
         self.Zfunc=lambda self,freq: 2*pi*freq*self.val['L']/self.val['Q']+1j*2*pi*freq*self.val['L']
         #function to define admittance
-        self.Yfunc=lambda self,freq: 1.0j/self.Zfunc(self,x) 
+        def Yfunc(self,freq):
+            return 1.0/self.Zfunc(self,freq)
+        self.Yfunc=Yfunc
+        def Zfunc(self,freq):
+            return 1.0j*self.Yfunc(self,freq)
+        self.Zfunc=Zfunc
+        def x(self,freq):
+            return self.Zfunc(self,freq)
+        self.Yfunc=lambda self,freq: 1.0j/self.Zfunc(self, x) 
 
 
 class capQ(element):
@@ -170,7 +197,7 @@ class capQ(element):
         self.name='capQ'
         
         if len(args)!=2:
-            print "ERROR: capQ(element) requires 2 arguments"
+            print ("ERROR: capQ(element) requires 2 arguments")
         else:
             self.val['C']=args[0]
             self.val['Q']=args[1]
@@ -178,7 +205,10 @@ class capQ(element):
         #function to define series impedance
         self.Zfunc=lambda self,freq: (1.0/(2*pi*freq*self.val['C']))/self.val['Q']+1.0j/(2*pi*freq*self.val['C'])
         #function to define admittance
-        self.Yfunc=lambda self,freq: 1.0/self.Zfunc(self,x)
+        def x(self,freq):
+            return self.Zfunc(self,freq)
+        self.Yfunc=lambda self,freq: 1.0j/self.Zfunc(self, x)
+    
 
 
 if __name__=='__main__':
@@ -197,6 +227,6 @@ if __name__=='__main__':
     net.element_array.append(C1)
     net.element_array.append(L1)
 
-    print net.compute_node_impedances(2.0e9)
+    print (net.compute_node_impedances(2.0e9))
     
     

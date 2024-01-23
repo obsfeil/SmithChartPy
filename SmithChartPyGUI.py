@@ -6,19 +6,19 @@ October 29, 2016
 Description: Smith Chart matching tool
 """
 
-from plot_funcs import *
-from canvas_slider import *
-from network_class import *
-from schematic_frame import *
-
 import matplotlib
+from plot_funcs import *
+from canvas_slider import  SliderFrame
+from network_class import  cap, ind, network
+from schematic_frame import  SchematicFrame
+import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
 
 from numpy import arange, sin, pi
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg#, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 
-import Tkinter as Tk
+import tkinter as Tk
 
 
 class MainWindow(Tk.Frame):
@@ -49,7 +49,7 @@ class MainWindow(Tk.Frame):
 
         #Menu
         menu=Tk.Menu(self.master)
-        self.master.config(menu=menu)
+        self.master.configure(menu)
         File=Tk.Menu(menu)
         menu.add_cascade(label="File",menu=File)
         menu.add_cascade(label="Plotting",menu=File)
@@ -121,11 +121,11 @@ class MainWindow(Tk.Frame):
         unit_map={'u':1e-6,'n':1e-9,'p':1e-12,'f':1e-15}
 
         if 'image_selection' in kargs:
-            i=self.Schem.image_selection-1
+            i=(kargs['image_selection'])-1 #self.Schem.image_selection-1
             self.draw_plot(selection=i)
         if 'values' in kargs:
             if 'cur' in kargs['values']:
-                i=self.Schem.image_selection-1
+                i=(kargs['image_selection'])-1 #self.Schem.image_selection-1
                 scale=unit_map[self.net.element_array[i].val['unit'][0]]
                 self.net.element_array[i].set_val(kargs['values']['cur']*scale)
                 #print i,kargs['values']['cur']
@@ -134,14 +134,14 @@ class MainWindow(Tk.Frame):
 
 
     def test(self,event):
-        print "OK"
+        print("OK")
         
     def edit_element(self):
         pass
 
     def delete_element(self):
-        n=self.Schem.image_selection
-        self.net.element_array.pop(n)
+        n= self.Schem.image_selection
+        self.net.element_array.pop
         self.Schem.draw_schematic()
         self.draw_plot()
         
@@ -197,7 +197,7 @@ class MainWindow(Tk.Frame):
 
         #print vsfreq_curve
         vsfreq_curve=zip(*vsfreq_curve)
-        self.vsfreq_curves.extend(self.mainplot.plot(vsfreq_curve[0],vsfreq_curve[1],lw=2,color='k',linestyle='--'))
+        vsfreq_curve=list(zip(*vsfreq_curve))
 
         
         if selection!=None:
@@ -214,12 +214,12 @@ class MainWindow(Tk.Frame):
 
 if __name__=='__main__':
 
-    print "OK"
+    print("OK")
 
     
     root=Tk.Tk()
     root.configure(background='white')
     root.wm_title("Impedance Matching Tool")
     
-    a=MainWindow(root)
+    a= MainWindow(root)
     root.mainloop()

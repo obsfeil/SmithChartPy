@@ -1,4 +1,4 @@
-import Tkinter as Tk
+import tkinter as Tk
 
 class SliderFrame(Tk.Canvas):
     #pass in: network, draw_plot, image_selection
@@ -61,7 +61,7 @@ class SliderFrame(Tk.Canvas):
         self.elemvar.set(str(self.values['cur'])+' '+self.values['unit'])
         self.lowvar.set(str(self.values['min'])+' '+self.values['unit'])
 
-        print "update_slide()", self.values['cur']
+        print ("update_slide()", self.values['cur'])
         
     def update_slider_position(self):
         self.move_slider_value(self.values['cur'])
@@ -146,8 +146,8 @@ if __name__=='__main__':
             slider_canvas=Tk.Canvas(Slider_Frame)
             slider=SliderFrame(slider_canvas,self.callback)
 
-        def callback(self,**kargs):
-            print kargs
+            def callback(self, **kargs):
+             print("CALLBACK",kargs) #self.kargs
             
     root = Tk.Tk()
     a=MainWindow(root)
