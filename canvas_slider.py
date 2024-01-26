@@ -28,6 +28,12 @@ class SliderFrame(Tk.Canvas):
         self.elemvar = Tk.StringVar()
         self.lowvar = Tk.StringVar()
         
+          # SLIDER FRAME
+        Slider_Frame = Tk.Frame(root)
+        Slider_Frame.grid(row=0, column=0)
+
+        slider_canvas = Tk.Canvas(Slider_Frame)
+        slider = SliderFrame(slider_canvas, self.callback)  # Pass the callback method
         self.canvas1 = Tk.Canvas(width=200, height=500)
         self.canvas1.configure(background='white')
         self.canvas1.grid(row=1,column=0,stick=Tk.N)#(expand=1, fill=Tk.BOTH)
@@ -36,12 +42,12 @@ class SliderFrame(Tk.Canvas):
         self.slider=self.canvas1.create_line(40,250,60,250,width=10,fill='#228')
 
         self.entry_high=Tk.Entry(self.canvas1, width=6, bg=self.canvas1['bg'], textvariable=self.highvar, justify='center',state='readonly')
-        self.entry_high.bind('<Return>',self.update_slider)
+    
         
         self.canvas1.create_window(50,25,window=self.entry_high)
         self.valuetext=self.canvas1.create_text(90,250, text=self.elemvar.get())
         self.entry_low=Tk.Entry(self.canvas1, width=6, bg=self.canvas1['bg'], textvariable=self.lowvar, justify='center',state='readonly')
-        self.entry_low.bind('<Return>',self.update_slider)
+        
         
         self.canvas1.create_window(50,475,window=self.entry_low)
 
@@ -146,9 +152,10 @@ if __name__=='__main__':
             slider_canvas=Tk.Canvas(Slider_Frame)
             slider=SliderFrame(slider_canvas,self.callback)
 
-            def callback(self, **kargs):
-             print("CALLBACK",kargs) #self.kargs
+    def callback(self, **kargs):
+        print("CALLBACK", kargs)  # Modify this function as neede
             
+if __name__ == '__main__':
     root = Tk.Tk()
-    a=MainWindow(root)
+    a = MainWindow(root)
     root.mainloop()
