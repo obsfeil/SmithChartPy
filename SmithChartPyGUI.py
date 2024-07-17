@@ -6,11 +6,13 @@ October 29, 2016
 Description: Smith Chart matching tool
 """
 
+# Use plot_funcs.function1(), plot_funcs.function2(), etc.
 import matplotlib
-from plot_funcs import *
-from canvas_slider import  SliderFrame
+import matplotlib.pyplot as plt
+from .plot_funcs import ConstAdmitCurve, ConstImpedCurve, function2, class1
+from .canvas_slider import  SliderFrame
 from network_class import  cap, ind, network
-from schematic_frame import  SchematicFrame
+from .schematic_frame import  SchematicFrame
 import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
 
@@ -56,6 +58,7 @@ class MainWindow(Tk.Frame):
         menu.add_cascade(label="Settings",menu=File)
         menu.add_cascade(label="Help",menu=File)
         
+        root = Tk.Tk()
         #SLIDER FRAME
         Slider_Frame=Tk.Frame(root)
         Slider_Frame.grid(row=0,column=0,sticky=Tk.S)
