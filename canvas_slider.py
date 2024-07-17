@@ -27,13 +27,13 @@ class SliderFrame(Tk.Canvas):
 
         self.entry_high = Tk.Entry(self.canvas1, width=6, bg=self.canvas1['bg'], textvariable=self.highvar,
                                    justify='center', state='readonly')
-        self.entry_high.bind('<Return>', self.update_slider)
+        self.entry_high.bind('<Return>', self.update_slider) # type: ignore
 
         self.canvas1.create_window(50, 25, window=self.entry_high)
         self.valuetext = self.canvas1.create_text(90, 250, text=self.elemvar.get())
         self.entry_low = Tk.Entry(self.canvas1, width=6, bg=self.canvas1['bg'], textvariable=self.lowvar,
                                   justify='center', state='readonly')
-        self.entry_low.bind('<Return>', self.update_slider)
+       self.entry_low.bind('<Return>', lambda event: self.update_slider())
 
         self.canvas1.create_window(50, 475, window=self.entry_low)
 
@@ -43,16 +43,13 @@ class SliderFrame(Tk.Canvas):
 
         self.update_slider()
 
-    def update_slider(self, **kargs):
-        if 'values' in kargs:
-            self.values = kargs['values']
-        self.canvas1.itemconfigure(self.valuetext, text=str("%.2f" % self.values['cur']) + ' ' + self.values['unit'])
+def update_slider(self, **kargs):
+    pass
 
-        self.highvar.set(str(self.values['max']) + ' ' + self.values['unit'])
-        self.elemvar.set(str(self.values['cur']) + ' ' + self.values['unit'])
-        self.lowvar.set(str(self.values['min']) + ' ' + self.values['unit'])
+def handle_return_event(event):
+    self.update_slider()
 
-        print("update_slide()", self.values['cur'])
+self.entry_low.bind('<Return>', handle_return_event)
 
     def update_slider_position(self):
         self.move_slider_value(self.values['cur'])
@@ -62,10 +59,10 @@ class SliderFrame(Tk.Canvas):
             self.box = self.canvas1.create_rectangle(35, 45, 65, 455, width=1, dash='.')
             self.slider_state = True
 
-    def slider_deactive(self, *args):
-        if self.slider_state:
-            self.canvas1.delete(self.box)
-        self.slider_state = False
+   def slider_deactive(self, *args):
+       if self.slider_state and self.box is not None:
+           self.canvas1.delete(self.box)
+       self.slider_state = False
 
     def slideon(self, event):
         self.slider_active()

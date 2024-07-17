@@ -9,7 +9,7 @@ Description: Smith Chart matching tool
 # Use plot_funcs.function1(), plot_funcs.function2(), etc.
 import matplotlib
 import matplotlib.pyplot as plt
-from .plot_funcs import ConstAdmitCurve, ConstImpedCurve, function2, class1
+from .plot_funcs import ConstAdmitCurve, ConstImpedCurve
 from .canvas_slider import  SliderFrame
 from network_class import  cap, ind, network
 from .schematic_frame import  SchematicFrame
