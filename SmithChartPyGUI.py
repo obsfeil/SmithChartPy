@@ -5,15 +5,15 @@ October 29, 2016
 
 Description: Smith Chart matching tool
 """
-
-# Use plot_funcs.function1(), plot_funcs.function2(), etc.
 import matplotlib
-import matplotlib.pyplot as plt
-from .plot_funcs import ConstAdmitCurve, ConstImpedCurve
-from .canvas_slider import  SliderFrame
-from network_class import  cap, ind, network
-from .schematic_frame import  SchematicFrame
-import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+from plot_funcs import ConstAdmitCurve, ConstImpedCurve
+from canvas_slider import SliderFrame
+from network_class import cap, ind, network
+from schematic_frame import SchematicFrame
 matplotlib.use('TkAgg')
 
 from numpy import arange, sin, pi
@@ -74,17 +74,16 @@ class MainWindow(Tk.Frame):
         button_edit=Tk.Button(CmpCntrl,width=10,text="Edit",command=self.edit_element)
         button_edit.grid(row=2,column=1,padx=5,pady=10)
 
-        ser_c_icon=Tk.PhotoImage(file="./icons/button_Cse.gif")
-        #button_ser_c=Tk.Button(CmpCntrl,image=ser_c_icon,command=self.add_series_c)#command=self.add_series_c,image=series_c_photo
-        button_ser_c=Tk.Button(CmpCntrl,width=10,text="Series C",command=self.add_series_c)#command=self.add_series_c,image=series_c_photo
-        button_ser_c.grid(row=0,column=0)
-        button2=Tk.Button(CmpCntrl,width=10,text="Shunt C", command=self.add_shunt_c)
-        button2.grid(row=0,column=1)
-        button3=Tk.Button(CmpCntrl,width=10,text="Series L", command=self.add_series_l)
-        button3.grid(row=1,column=0)
-        button4=Tk.Button(CmpCntrl,width=10,text="Shunt L", command=self.add_shunt_l)
-        button4.grid(row=1,column=1)
-        CmpCntrl.config(background="white")
+        ser_c_icon = tk.PhotoImage(file="./icons/button_Cse.gif")
+        button_ser_c = tk.Button(CmpCntrl, width=10, text="Series C", command=self.add_series_c)
+        button_ser_c.grid(row=0, column=0)
+        button2 = tk.Button(CmpCntrl, width=10, text="Shunt C", command=self.add_shunt_c)
+        button2.grid(row=0, column=1)
+        button3 = tk.Button(CmpCntrl, width=10, text="Series L", command=self.add_series_l)
+        button3.grid(row=1, column=0)
+        button4 = tk.Button(CmpCntrl, width=10, text="Shunt L", command=self.add_shunt_l)
+        button4.grid(row=1, column=1)
+        CmpCntrl.configure(background="white")
 
         #PLOT FRAME
         PlotFrame = Tk.Frame()

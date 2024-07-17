@@ -54,39 +54,27 @@ self.entry_low.bind('<Return>', handle_return_event)
     def update_slider_position(self):
         self.move_slider_value(self.values['cur'])
 
-    def slider_active(self, *args):
-        if not self.slider_state:
-            self.box = self.canvas1.create_rectangle(35, 45, 65, 455, width=1, dash='.')
-            self.slider_state = True
-
-   def slider_deactive(self, *args):
-       if self.slider_state and self.box is not None:
-           self.canvas1.delete(self.box)
-       self.slider_state = False
-
-    def slideon(self, event):
-        self.slider_active()
-        self.slide_active = True
-
-    def slideoff(self, event):
-        self.slider_deactive()
-        self.slider_state = False
-
-    def val_from_coord(self, y):
-        Vmin = self.values['min']
-        Vmax = self.values['max']
-
-        m = (Vmin - Vmax) / (450.0 - 50.0)
-
-        return m * (y - 450.0) + Vmin
-
-    def coord_from_val(self, val):
-        Vmin = self.values['min']
-        Vmax = self.values['max']
-
-        m = (Vmin - Vmax) / (450.0 - 50.0)
-
-        return (val - Vmin) / m + 450.0
+ def slider_active(self, *args):
+     if not self.slider_state:
+         self.box = self.canvas1.create_rectangle(35, 45, 65, 455, width=1, dash='.')
+         self.slider_state = True
+ 
+ def slider_deactive(self, *args):
+     if self.slider_state and self.box is not None:
+         self.canvas1.delete(self.box)
+     self.slider_state = False
+ 
+ def slideon(self, event):
+     self.slider_active()
+     self.slide_active = True
+ 
+ def slideoff(self, event):
+     self.slider_deactive()
+     self.slider_state = False
+ 
+ def val_from_coord(self, y):
+     Vmin = self.values['min']
+     Vmax = self.values['max']
 
     def mouse_move_slider(self, event):
         new_x, new_y = event.x, event.y
